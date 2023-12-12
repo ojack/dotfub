@@ -1,8 +1,8 @@
 class Squirm {
   constructor ({ metadata = {}, columns = [] } = {}) {
     this.metadata = Object.assign({
-      version: "1.0.0",
-      license: "GPLv3"
+      version: '1.0.0',
+      license: 'GPLv3'
     }, metadata)
     // defaults to t, x, and y. later we can add a flag for renaming or removing x and y
     this.data = { t: [], x: [], y: [] }
