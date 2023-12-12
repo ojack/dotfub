@@ -2,13 +2,42 @@
 
   import Squirm from './Squirm.js'
 
+  const actionsToCompress = ['addTick']
 
-  const cloneSquirm = (s) => {
-    const newSquirm = new Squirm()
-    newSquirm.data = Object.assign({}, s.data)
-    newSquirm.metadata = Object.assign({}, s.metadata)
-    return newSquirm
+  const actions = {}
+  //functional representation of actions on squimr
+
+  const squirmActions = {
+    'cloneSquirm': ..,
   }
+
+  const squirmActionsThatNeedCloning = {
+    'addTick': .....
+  }
+
+  Object.entries(squirmActions).forEach(([name, action]) => {
+    // add as method to squirm class
+    Squirm.prototype[name] = function (data) {
+      return action(this)(data)
+    }
+  })
+
+  Object.entries(squirmActionsThatNeedCloning).forEach(([name, action]) => {
+    // add as method to squirm class
+    Squirm.prototype[name] = function (data) {
+      return action(this)(data)
+    }
+    // generate user-facing method
+  })
+
+
+  // export { Squirm, addTick = wrap(squirmActions.addTick) }
+
+
+
+////
+  
+
   const addTickFunctional = (s) => (dataPoint) => {
     // s.weird.push(data)
     Object.keys(s.data).forEach(key => {
@@ -26,13 +55,11 @@
   const addTick = (s, data) => {
     const clone = cloneSquirm(s)
     addTickFunctional(clone)(data)
+    console.log(s.data.x, clone.data.x)
     return clone
   }
 
-  Squirm.prototype.addTick = function (data) {
-    console.log(data, this)
-    return addTickFunctional(this)(data)
-  }
+ 
 
   // const addTick = (Squirm, data) => {
   //   const myFunction = addTickFunctional(Squirm)
@@ -50,6 +77,12 @@
 
   console.log('first', squirm)
   console.log('second', squirm2)
+
+
+  window.cloneSquirm = cloneSquirm
+  window.Squirm = Squirm
+  window.squirm = squirm
+  window.squirm2 = squirm2
 
 
 </script>
