@@ -1,11 +1,13 @@
 class Squirm {
-  constructor () {
-    this.metadata = {
-      version: '1.0.0',
-      license: 'GPLv3'
-      // etc...
-    }
-    this.data = {}
+  constructor ({ metadata = {}, columns = [] } = {}) {
+    this.metadata = Object.assign({
+      version: "1.0.0",
+      license: "GPLv3"
+    }, metadata)
+    this.data = { t: [] }
+    columns.forEach((col) => {
+      this.data[col] = []
+    })
   }
 
   set min (v) {
