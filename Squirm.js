@@ -2,7 +2,7 @@ class Squirm {
   constructor () {
     this.metadata = {
       version: '1.0.0',
-      liscend: 'GPLv3'
+      license: 'GPLv3'
       // etc...
     }
     this.data = {}
