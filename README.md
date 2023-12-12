@@ -7,8 +7,17 @@ A file format for defining multi-dimensional strokes or gestures in time
 --> returns a squirm
 - Sends warning if t is not bigger than past t
 - warns if not all dimensions (t, x, y, z) are not covered
-- t is time relative to start time / instantiation / birth / inception / genesis 
+- t is time relative to start time / instantiation / birth / inception / genesis
 - MUST contain property t
+
+```js
+Object.keys(dataPoint).forEach(key => {
+  if (!this.data[key]) {
+    this.data[key] = []
+  }
+  this.data[key].push(dataPoint[key])
+})
+```
 
 ### convertToString( Squirm, options = {} )
 --> returns a string
@@ -28,8 +37,6 @@ A file format for defining multi-dimensional strokes or gestures in time
 
 ### getAt(Squirm, time )
 --> returns an object containing { x, t, y } values
-?? say time is 0 to 50, we pass in 80 --- does it 
-wrap: repeat, hallucinate, mirror, clamp // what does it do beyond time? 
+?? say time is 0 to 50, we pass in 80 --- does it
+wrap: repeat, hallucinate, mirror, clamp // what does it do beyond time?
 interpolation:  // what does it do between time? nearest, linear, previous, next
-
-
