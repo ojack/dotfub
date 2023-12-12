@@ -5,6 +5,10 @@ const { cloneSquirm } = actions
 
 // object containing public facing library of squirm functions
 const squirmActions = {}
+
+// For each squirm action, add that action as a method to the Squirm class, and also as a a standalone function
+// For example, `addTick` can be called as `mySquirm.addTick(point)` or as `addTick(mySquirm, point)`
+
 Object.entries(actions).forEach(([name, action]) => {
     // Generate standalone action function from each action
     // if function name starts with '_', should be cloned and modified before passing to function. 
@@ -22,7 +26,7 @@ Object.entries(actions).forEach(([name, action]) => {
     }
 
     // add method to Squirm prototype
-    Squirm.prototype[newName] = function (payload) {
+    Squirm.prototype[newName] = function (payload = null) {
         return action(this, payload)
     }
 })
