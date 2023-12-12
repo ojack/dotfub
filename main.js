@@ -11,7 +11,7 @@ const squirmActions = {}
 
 Object.entries(actions).forEach(([name, action]) => {
     // Generate standalone action function from each action
-    // if function name starts with '_', should be cloned and modified before passing to function. 
+    // if function name starts with '_', it should be cloned before operation is calculated. 
     // i.e. the public-facing function `addTick()` will call the private function `_addTick()`
     let newName = name
     if(newName.indexOf('_') === 0) {
