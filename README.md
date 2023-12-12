@@ -11,13 +11,19 @@ A file format for defining multi-dimensional strokes or gestures in time
 - MUST contain property t
 
 ```js
-Object.keys(dataPoint).forEach(key => {
-  if (!this.data[key]) {
-    this.data[key] = []
-  }
-  this.data[key].push(dataPoint[key])
-})
+const _addTick = (s, payload) => {
+    Object.keys(s.data).forEach(key => {
+        let newVal = payload[key]
+        if (!key in payload) {
+            console.warn(`missing data for ${key}, using last value instead`)
+        }
+        s.data[key].push(newVal)
+    })
+    return s
+}
 ```
+
+
 
 ### convertToString( Squirm, options = {} )
 --> returns a string
