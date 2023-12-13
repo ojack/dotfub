@@ -58,3 +58,16 @@ from:  // what does it do between time? nearest, linear, before, after
 - should we round the squirm data points / have a certain precision?
 - probably should restructure repo to have library functions in one place + examples in another, etc etc..
 - (for myself) how to reconcile squirms with fubbles in existing projects / how does a squirm relate to a fubble? .. i.e. usually i would call this a 'fubble' in my own projects (https://twitter.com/awwbees/status/1294025917510168578) but then we are doing something additional + adding on so much with the file format and mimeing + cross polination
+- our format seems similar to the second version of the keyframe format at: https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats
+
+Using this format, the number of elements in each array does not need to be equal. The provided values will be spaced out independently.
+
+```javascript
+element.animate(
+  {
+    opacity: [0, 1], // offset: 0, 1
+    backgroundColor: ["red", "yellow", "green"], // offset: 0, 0.5, 1
+  },
+  2000,
+);
+```

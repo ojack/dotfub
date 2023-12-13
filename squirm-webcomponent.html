@@ -1,0 +1,97 @@
+<script>
+    // Create a class for the element
+    // can be inspired by: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+    // https://github.com/proyecto26/animatable-component
+    class SquirmElement extends HTMLElement {
+        static observedAttributes = ["src", "srcObject", "autoplay"];
+
+        constructor() {
+            // Always call super first in constructor
+            super();
+            this.attachShadow({ mode: 'open' })
+            this.timeelapsed = 0
+            this._loop = null
+            // const shadowRoot = this.attachShadow({mode: 'open'});
+            // shadowRoot.innerHTML = '<style>:host { position:relative; }</style>';
+        }
+
+        connectedCallback() {
+            console.log("Custom element added to page.");
+            this.shadowRoot.innerHTML = ""
+            const style = document.createElement('style');
+            style.innerHTML = `
+            :host{
+                position: relative;
+                top: 0px;
+                left: 100px;
+                transition: 2s linear;
+            }
+        `;
+            this.shadowRoot.append(style);
+            this.shadowRoot.append(document.createElement('slot'));
+            this._animate()
+        }
+
+        // placeholder function for animating an element
+        _animate() {
+            this._loop = setInterval(() => {
+                this.style.left = `${Math.random() * 500}px`
+                this.style.top = `${Math.random() * 500}px`
+            }, 2000)
+        }
+        disconnectedCallback() {
+            console.log("Custom element removed from page.");
+        }
+
+        attributeChangedCallback(name, oldValue, newValue) {
+            console.log(`Attribute ${name} has changed from ${oldValue} to ${newValue}`);
+            if (name === 'src') {
+                fetch(newValue)
+                    .then((res) => res.text())
+                    .then((text) => {
+                        // console.log(text)
+                        // ?? need function to create squirm from text
+                    })
+                    .catch((e) => console.error(e))
+            }
+        }
+    }
+
+    customElements.define("squirm-element", SquirmElement)
+</script>
+
+<body>
+    <squirm-element src="./test.squirm" id="my-squirm">
+        <div style="background-color:rgb(236, 15, 136);width:300px;height:200px;">
+            <h1>hello</h1>
+        </div>
+    </squirm-element>
+    <squirm-element src="./test.squirm" id="my-squirm">
+        <div style="background-color:rgb(211, 14, 79);width:400px;height:100px;mix-blend-mode: difference;">
+            <button style="mix-blend-mode: color-burn;">weeeeee</button>
+        </div>
+    </squirm-element>
+    <div id="animate-test">i am being animated using the animations api</div>
+
+    <!-- <div is="squirm-div" src="./test.squirm">
+    <div style="background-color:black;width:100px;height:100px;"></div>
+</div> -->
+    <script>
+        let s = document.getElementsByTagName('squirm-element')[0]
+        console.log('s', s)
+        window.s = s
+
+        let anim = document.querySelector('#animate-test')
+        anim.animate(
+            {
+                opacity: [0, 1], // offset: 0, 1
+                backgroundColor: ["red", "yellow", "green"], // offset: 0, 0.5, 1
+            },
+            {
+                duration: 2000,
+                iterations: 100
+            }
+        );
+
+    </script>
+</body>
