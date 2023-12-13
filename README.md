@@ -47,3 +47,11 @@ const _addTick = (s, payload) => {
 ?? say time is 0 to 50, we pass in 80 --- does it
 wrap: repeat, hallucinate, mirror, clamp // what does it do beyond time?
 from:  // what does it do between time? nearest, linear, before, after
+
+
+## notes and questions after worksession 12.12 (olivia)
+- does `actions/saveToFile` need to clone file?
+- how to pass path in to `loadFromFile`? i.e. what i imageine wanting to do often is to load a local squirm file
+- possible for loadFromFile to use promises or async/await instead of callbacks?
+- are we missing the function to generate a squirm from a string representation?
+- i think min and max for values other than t should be user defined, so we can get available bounds of "drawing area" (for scaling) rather than just bounds of recorded points. this means we need to re-implement min and max getter and setter

@@ -8,19 +8,20 @@
 </head>
 
 <body>
-    <canvas id="squirm-canvas"></canvas>
+    <p>t~ouch and dra~g below~ to generate a sq~~uirm (will download ~~~~~~f~ile to downloads folder) </p>
+    <canvas id="squirm-canvas" style="border:solid 10px black"></canvas>
     <script type="module">
         import { Squirm, squirmActions } from './main.js'
         const { convertToString, cloneSquirm, addTick } = squirmActions
 
         const canvas = document.querySelector('#squirm-canvas')
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+        canvas.width = 600
+        canvas.height = 600
         const ctx = canvas.getContext('2d')
 
         let startTime = null
         let currentSquirm = null
-        
+
         canvas.addEventListener("pointerdown", (e) => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             startTime = performance.now()
