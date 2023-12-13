@@ -9,6 +9,7 @@ A file format for defining multi-dimensional strokes or gestures in time
 - warns if not all dimensions (t, x, y, z) are not covered
 - t is time relative to start time / instantiation / birth / inception / genesis
 - MUST contain property t
+- t *must* start at 0
 
 ```js
 const _addTick = (s, payload) => {
@@ -41,8 +42,8 @@ const _addTick = (s, payload) => {
 ### loadFromFile ( path )
 --> returns a squirm
 
-### getAt(Squirm, time )
+### getAt(Squirm, time, {} )
 --> returns an object containing { x, t, y } values
 ?? say time is 0 to 50, we pass in 80 --- does it
 wrap: repeat, hallucinate, mirror, clamp // what does it do beyond time?
-interpolation:  // what does it do between time? nearest, linear, previous, next
+from:  // what does it do between time? nearest, linear, before, after
