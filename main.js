@@ -17,6 +17,10 @@ Object.entries(actions).forEach(([name, action]) => {
   if (newName.indexOf('_') === 0) {
     newName = newName.substring(1)
     squirmActions[newName] = (s, payload) => {
+      if (!(s instanceof Squirm)) {
+        console.error('First argument must be an instance of Squirm')
+        return
+      }
       const clone = cloneSquirm(s)
       action(clone, payload)
       return clone
