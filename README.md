@@ -8,10 +8,11 @@ Conceptualized and created in Chicago at netizen.org's Artware Incubator with Ol
 A single moment
 
 ## fubble
-A gesture, continuum, or stroke of **ticks**
+A continuum of **ticks**
 
-### mob
-A collection of **fubbles**, ex: a hand geasture (made up of finger fubbles), this can be a manifest with metadata (about the relationship between fubbles, including a shared clock) and references/paths to individual dotfub files, or it can be a single file containing all the individual fubble data itself.
+## mob
+A collection of **fubbles**
+ex: a hand geasture could be made up of finger fubbles). This can be a manifest with metadata (about the relationship between fubbles, including a shared clock) and references/paths to individual dotfub files, or it can be a single file containing all the individual fubble data itself.
 
 ### contortion (?)
 a change of the thing (buffer)
@@ -31,19 +32,22 @@ this can happen a multitude of ways
     - interwoven/intertwingled
 
 ### squish
-The action of squishing a fubble or sob creates a compressed archive
+A compressed archive of fubbles or mobs.
 
 ### squirmish
-Error that results from mobbing fubbles
+An error that results from mobbing fubbles.
 
-### fubbleverse
-ecostystem of fubbles, fubble mobs, agitations
-
-### fubhole
+#### fubhole
 ??? mysterious and unpredictable
 
-### fubblecore
-a subgenera of internet art informed by and facilitated by fubbles and the dot fub file format!
+#### fubbleverse
+The ecostystem of fubbles, fubble mobs, agitations
+
+#### fubbleware
+Software that services fubbles, ex. the Fubble Inspector
+
+#### fubblecore
+A subgenera of Internet art informed by and facilitated by fubbles and the dot fub file format!
 
 ## dot fub File Specification
 
