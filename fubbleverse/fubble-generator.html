@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>fubble generator</title>
+</head>
+
+<body>
+    <p>t~ouch and dra~g below~ to generate a fubble (will download ~~~~~~f~ile to downloads folder) </p>
+    <canvas id="fubble-canvas" style="border:solid 10px black"></canvas>
+    <script type="module">
+        import { Fubble, FubbleActions } from './main.js'
+        const { convertToString, cloneFubble, addTick } = FubbleActions
+
+        const canvas = document.querySelector('#Fubble-canvas')
+        canvas.width = 600
+        canvas.height = 600
+        const ctx = canvas.getContext('2d')
+
+        let startTime = null
+        let currentFubble = null
+
+        canvas.addEventListener("pointerdown", (e) => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            startTime = performance.now()
+            currentFubble = new Fubble()
+            currentFubble.addTick({ t: 0, x: e.clientX, y: e.clientY })
+        });
+
+        canvas.addEventListener("pointermove", (e) => {
+            // console.log(e)
+            if (currentFubble !== null) {
+                currentFubble.addTick({ x: e.clientX, y: e.clientY, t: performance.now() - startTime })
+                ctx.fillRect(e.clientX, e.clientY, 10, 10)
+            }
+        })
+
+        canvas.addEventListener("pointerup", (e) => {
+            console.log(e)
+            // console.log('f')
+            //Fubble.push({ x: e.clientX, y: e.clientY })
+            console.log(currentFubble)
+            currentFubble.saveToFile()
+            currentFubble = null
+            //generateFubbleFormat(Fubble)
+        })
+
+    </script>
+</body>
+
+</html>

@@ -4,27 +4,27 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>squirm player</title>
+    <title>fubble player</title>
 </head>
 
 <body>
-    <p id="squirm-contents"></p>
-    <canvas id="squirm-canvas"></canvas>
+    <p id="fubble-contents"></p>
+    <canvas id="fubble-canvas"></canvas>
     <script type="module">
-        import { Squirm, squirmActions } from './main.js'
-        // const { loadFromFile } = squirmActions
+        import { Fubble, fubbleActions } from './main.js'
+        // const { loadFromFile } = fubbleActions
 
         // i couldn't figure out how to pass in a file path in order to use the current loadFromFile, so I did it using fetch()
-        fetch('./test.squirm')
+        fetch('./test.fubble')
         .then((res) => res.text())
         .then((text) => {
             console.log(text)
-            document.querySelector('#squirm-contents').innerText = text
-            // ?? need function to create squirm from text
+            document.querySelector('#fubble-contents').innerText = text
+            // ?? need function to create fubble from text
         })
         .catch((e) => console.error(e))
         
-        const canvas = document.querySelector('#squirm-canvas')
+        const canvas = document.querySelector('#fubble-canvas')
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
         const ctx = canvas.getContext('2d')

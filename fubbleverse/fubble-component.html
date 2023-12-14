@@ -2,7 +2,7 @@
     // Create a class for the element
     // can be inspired by: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
     // https://github.com/proyecto26/animatable-component
-    class SquirmElement extends HTMLElement {
+    class FubbleElement extends HTMLElement {
         static observedAttributes = ["src", "srcObject", "autoplay"];
 
         constructor() {
@@ -50,34 +50,34 @@
                     .then((res) => res.text())
                     .then((text) => {
                         // console.log(text)
-                        // ?? need function to create squirm from text
+                        // ?? need function to create fubble from text
                     })
                     .catch((e) => console.error(e))
             }
         }
     }
 
-    customElements.define("squirm-element", SquirmElement)
+    customElements.define("fubble-element", FubbleElement)
 </script>
 
 <body>
-    <squirm-element src="./test.squirm" id="my-squirm">
+    <fubble-element src="./test.fubble" id="my-fubble">
         <div style="background-color:rgb(236, 15, 136);width:300px;height:200px;">
             <h1>hello</h1>
         </div>
-    </squirm-element>
-    <squirm-element src="./test.squirm" id="my-squirm">
+    </fubble-element>
+    <fubble-element src="./test.fubble" id="my-fubble">
         <div style="background-color:rgb(211, 14, 79);width:400px;height:100px;mix-blend-mode: difference;">
             <button style="mix-blend-mode: color-burn;">weeeeee</button>
         </div>
-    </squirm-element>
+    </fubble-element>
     <div id="animate-test">i am being animated using the animations api</div>
 
-    <!-- <div is="squirm-div" src="./test.squirm">
+    <!-- <div is="fubble-div" src="./test.fubble">
     <div style="background-color:black;width:100px;height:100px;"></div>
 </div> -->
     <script>
-        let s = document.getElementsByTagName('squirm-element')[0]
+        let s = document.getElementsByTagName('fubble-element')[0]
         console.log('s', s)
         window.s = s
 

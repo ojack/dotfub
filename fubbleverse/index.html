@@ -1,52 +1,52 @@
-<a href="./squirm-generator.html">~~~~~~~squirm~generator~~</div>
-<a href="./squirm-player.html">~~~~~~~squirm~player~~</div>
+<a href="./fubble-generator.html">~~~~~~~fubble~generator~~</div>
+<a href="./fubble-player.html">~~~~~~~fubble~player~~</div>
 <script type="module">
 
-  import { Squirm, squirmActions } from './main.js'
+  import { Fubble, fubbleActions } from './main.js'
 
-  console.log('importing', Squirm, squirmActions)
-  const { convertToString, cloneSquirm, addTick } = squirmActions
+  console.log('importing', fubble, fubbleActions)
+  const { convertToString, cloneFubble, addTick } = fubbleActions
 
   // Testing
-  const squirm = new Squirm()
-  squirm.addTick({ t: 0, x: 100, y: 100 })
-  const squirm2 = addTick(squirm, { t: 1.5, x: 200, y: 200 })
-  squirm2.addTick({ t: 2, x: 500, y: 100 })
-  squirm2.addTick({ t: 3, x: 400, y: 200 })
-  squirm2.addTick({ t: 4, x: 300, y: 300 })
+  const fubble = new Fubble()
+  fubble.addTick({ t: 0, x: 100, y: 100 })
+  const fubble2 = addTick(fubble, { t: 1.5, x: 200, y: 200 })
+  fubble2.addTick({ t: 2, x: 500, y: 100 })
+  fubble2.addTick({ t: 3, x: 400, y: 200 })
+  fubble2.addTick({ t: 4, x: 300, y: 300 })
 
-  // console.log( squirm2.getAt(0))
-  // console.log( squirm2.getAt(2.5) )
-  // console.log( squirm2.getAt(3) )
-  // console.log( squirm2.getAt(4))
-  // console.log( squirm2.getAt(5.5))
+  // console.log( fubble2.getAt(0))
+  // console.log( fubble2.getAt(2.5) )
+  // console.log( fubble2.getAt(3) )
+  // console.log( fubble2.getAt(4))
+  // console.log( fubble2.getAt(5.5))
 
-  // console.log( squirm2.getAt({ t:0, from: 'after' }) )
-  // console.log( squirm2.getAt({ t:2.5, from: 'after' }) )
-  // console.log( squirm2.getAt({ t:3, from: 'after' }) )
-  // console.log( squirm2.getAt({ t:4, from: 'after' }) )
-  // console.log( squirm2.getAt({ t:5.5, from: 'after' }) )
+  // console.log( fubble2.getAt({ t:0, from: 'after' }) )
+  // console.log( fubble2.getAt({ t:2.5, from: 'after' }) )
+  // console.log( fubble2.getAt({ t:3, from: 'after' }) )
+  // console.log( fubble2.getAt({ t:4, from: 'after' }) )
+  // console.log( fubble2.getAt({ t:5.5, from: 'after' }) )
 
-  console.log( squirm2.getAt({ t:0.2, from: 'lerp' }) )
-  console.log( squirm2.getAt({ t:1.87, from: 'lerp' }) )
-  console.log( squirm2.getAt({ t:3.3, from: 'lerp' }) )
-  console.log( squirm2.getAt({ t:4.23, from: 'lerp' }) )
-  console.log( squirm2.getAt({ t:5.68, from: 'lerp' }) )
+  console.log( fubble2.getAt({ t:0.2, from: 'lerp' }) )
+  console.log( fubble2.getAt({ t:1.87, from: 'lerp' }) )
+  console.log( fubble2.getAt({ t:3.3, from: 'lerp' }) )
+  console.log( fubble2.getAt({ t:4.23, from: 'lerp' }) )
+  console.log( fubble2.getAt({ t:5.68, from: 'lerp' }) )
 
-  // console.log( squirm2.getAt({ t:0, from: 'nearest' }) )
-  // console.log( squirm2.getAt({ t:2.45, from: 'nearest' }) )
-  // console.log( squirm2.getAt({ t:3.6, from: 'nearest' }) )
-  // console.log( squirm2.getAt({ t:4, from: 'nearest' }) )
-  // console.log( squirm2.getAt({ t:4.5, from: 'nearest' }) )
-  // console.log( squirm2.getAt({ t:5.5, from: 'nearest' }) )
+  // console.log( fubble2.getAt({ t:0, from: 'nearest' }) )
+  // console.log( fubble2.getAt({ t:2.45, from: 'nearest' }) )
+  // console.log( fubble2.getAt({ t:3.6, from: 'nearest' }) )
+  // console.log( fubble2.getAt({ t:4, from: 'nearest' }) )
+  // console.log( fubble2.getAt({ t:4.5, from: 'nearest' }) )
+  // console.log( fubble2.getAt({ t:5.5, from: 'nearest' }) )
 
-  console.log('first', squirm)
-  console.log('second', squirm2)
+  console.log('first', fubble)
+  console.log('second', fubble2)
 
-  console.log(squirm.convertToString())
-  console.log(convertToString(squirm2))
+  console.log(fubble.convertToString())
+  console.log(convertToString(fubble2))
 
 
-  window.cloneSquirm = cloneSquirm
-  window.Squirm = Squirm
+  window.cloneFubble = cloneFubble
+  window.fubble = fubble
 </script>
