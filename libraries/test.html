@@ -1,31 +1,31 @@
 <script type="module">
 
-  import { Squirm, squirmActions } from './main.js'
+  import { Fubble, fubbleActions } from './main.js'
 
-  // console.log('importing', Squirm, squirmActions)
-  const { loadFromFile, saveToFile, convertToString, cloneSquirm, addTick } = squirmActions
+  // console.log('importing', Fubble, fubbleActions)
+  const { loadFromFile, saveToFile, convertToString, cloneFubble, addTick } = fubbleActions
 
   // Testing
-  const squirm = new Squirm()
-  squirm.addTick({ t: 1, x: 100, y: 100 })
+  const fubble = new Fubble()
+  fubble.addTick({ t: 1, x: 100, y: 100 })
 
-  const squirm2 = addTick(squirm, { t: 2, x: 200, y: 200 })
+  const fubble2 = addTick(fubble, { t: 2, x: 200, y: 200 })
 
-  squirm2.addTick({ t: 3, x: 300, y: 300 })
+  fubble2.addTick({ t: 3, x: 300, y: 300 })
 
-  squirm2.addTick({ t: 2.2, x: 400, y: 400 })
+  fubble2.addTick({ t: 2.2, x: 400, y: 400 })
 
 
-  console.log('first', squirm.data)
-  console.log('second', squirm2.data)
+  console.log('first', fubble.data)
+  console.log('second', fubble2.data)
 
-  // console.log(squirm.convertToString())
-  // console.log(convertToString(squirm2))
-  // squirm.saveToFile()
-  // squirm.saveToFile()
+  // console.log(fubble.convertToString())
+  // console.log(convertToString(fubble2))
+  // fubble.saveToFile()
+  // fubble.saveToFile()
 
   const button = document.createElement('button')
-  button.textContent = 'load squirm'
+  button.textContent = 'load fubble'
   button.onclick = () => {
     loadFromFile((err, data) => {
       if (err) {
@@ -40,8 +40,8 @@
 
 
 
-  window.cloneSquirm = cloneSquirm
-  window.Squirm = Squirm
-  window.squirm2 = squirm2
-  window.squirm = squirm
+  window.cloneFubble = cloneFubble
+  window.Fubble = Fubble
+  window.fubble2 = fubble2
+  window.fubble = fubble
 </script>
