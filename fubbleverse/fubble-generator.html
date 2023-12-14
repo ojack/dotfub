@@ -11,10 +11,11 @@
     <p>t~ouch and dra~g below~ to generate a fubble (will download ~~~~~~f~ile to downloads folder) </p>
     <canvas id="fubble-canvas" style="border:solid 10px black"></canvas>
     <script type="module">
-        import { Fubble, FubbleActions } from './main.js'
-        const { convertToString, cloneFubble, addTick } = FubbleActions
+         import { Fubble, fubbleActions } from './../libraries/main.js'
 
-        const canvas = document.querySelector('#Fubble-canvas')
+        const { convertToString, cloneFubble, addTick } = fubbleActions
+
+        const canvas = document.querySelector('#fubble-canvas')
         canvas.width = 600
         canvas.height = 600
         const ctx = canvas.getContext('2d')
