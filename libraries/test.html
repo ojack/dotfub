@@ -3,7 +3,7 @@
   import { Fubble, fubbleActions } from './main.js'
 
   // console.log('importing', Fubble, fubbleActions)
-  const { loadFromFile, saveToFile, convertToString, cloneFubble, addTick } = fubbleActions
+  const { loadFromFile, saveToFile, convertToString, cloneFubble, addTick, stringToFubble } = fubbleActions
 
   // Testing
   const fubble = new Fubble()
@@ -32,7 +32,9 @@
         console.error(err);
       } else {
         // Process the data
-        console.log(data)
+        const f = stringToFubble(data)
+        // fubble.stringToFubble(data)
+        console.log('update', fubble)
       }
     })
   }

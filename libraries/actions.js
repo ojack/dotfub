@@ -1,9 +1,9 @@
 import Fubble from './Fubble.js'
 
-// @todo: should always have time, should add new time such that time array is always increasing
-const _addTick = (s, payload) => {
-  if (typeof s.metadata.emergence === 'undefined') {
-    s.metadata.emergence = new Date().toISOString()
+// should always have time, should add new time such that time array is always increasing
+const _addTick = (f, payload) => {
+  if (typeof f.metadata.emergence === 'undefined') {
+    f.metadata.emergence = new Date().toISOString()
   }
 
   if (typeof payload.t === 'undefined') {
@@ -13,138 +13,188 @@ const _addTick = (s, payload) => {
 
   let idx = null // index to insert payload between
   let rep = null // index to replace with new payload
-  if (s.data.t.indexOf(payload.t) >= 0) {
-    rep = s.data.t.indexOf(payload.t)
+  if (f.data.t.indexOf(payload.t) >= 0) {
+    rep = f.data.t.indexOf(payload.t)
     console.warn(`addTick: {t} is already in the data, replacing index ${rep} with new tick`)
-  } else if (payload.t < s.max.t) {
+  } else if (payload.t < f.data.t[f.data.t.length - 1]) {
     let low = 0
-    let high = s.data.t.length
+    let high = f.data.t.length
     while (low < high) {
       const mid = Math.floor((low + high) / 2)
-      if (payload.t <= s.data.t[mid]) high = mid
+      if (payload.t <= f.data.t[mid]) high = mid
       else low = mid + 1
     }
     idx = low
     console.warn(`addTick: {t} passed is smaller than the last tick, inserting it into index ${idx} to keep ticks in the right order`)
   }
 
-  Object.keys(s.data).forEach(key => {
+  Object.keys(f.data).forEach(key => {
     let newVal = payload[key]
 
     if (!(key in payload)) {
       // todo: defaulting to 0, think this through a bit more
-      newVal = s.data[key].length === 0
-        ? 0 : s.data[key][s.data[key].length - 1]
+      newVal = f.data[key].length === 0
+        ? 0 : f.data[key][f.data[key].length - 1]
       console.warn(`missing data for ${key}, using  ${newVal} instead`)
     }
 
+    // update the tick
     if (typeof idx === 'number') {
-      s.data[key].splice(idx, 0, newVal)
+      f.data[key].splice(idx, 0, newVal)
     } else if (typeof rep === 'number') {
-      s.data[key][rep] = newVal
+      f.data[key][rep] = newVal
     } else {
-      s.data[key].push(newVal)
+      f.data[key].push(newVal)
     }
+    // set/update the bounds
+    if (typeof f.bounds[key].min === 'undefined' ||
+      f.bounds[key].min > newVal) f.bounds[key].min = newVal
+    if (typeof f.bounds[key].max === 'undefined' ||
+      f.bounds[key].max < newVal) f.bounds[key].max = newVal
   })
 
-  return s
+  return f
 }
 
-const cloneFubble = (s) => {
+const cloneFubble = (f) => {
   const newFubble = new Fubble()
-  newFubble.data = JSON.parse(JSON.stringify(s.data))
-  newFubble.metadata = Object.assign({}, s.metadata)
+  newFubble.data = JSON.parse(JSON.stringify(f.data))
+  newFubble.metadata = JSON.parse(JSON.stringify(f.metadata))
+  newFubble.bounds = JSON.parse(JSON.stringify(f.bounds))
   return newFubble
 }
 
-const convertToString = (s) => {
+const convertToString = (f) => {
   // construct header
   let str = '~~~\n'
-  Object.entries(s.metadata).map(([key, value]) => {
+  Object.entries(f.metadata).map(([key, value]) => {
     str += `${key}: ${value}\n`
   })
   str += '~~~\n'
   // construct body
-  const keys = Object.keys(s.data)
-  str += `cols ${keys.join(' ')}\n`
-  const min = s.min
-  const max = s.max
-  str += `min ${keys.map(k => min[k]).join(' ')}\n`
-  str += `max ${keys.map(k => max[k]).join(' ')}\n`
-  str += Array.from({ length: s.data[keys[0]].length }, (_, rowIndex) => {
-    return `~ ${keys.map(key => s.data[key][rowIndex]).join(' ')}`
+  const keys = Object.keys(f.data)
+  str += `col ${keys.join(' ')}\n`
+
+  str += `min ${Object.values(f.bounds).map(o => o.min).join(' ')}\n`
+  str += `max ${Object.values(f.bounds).map(o => o.max).join(' ')}\n`
+
+  str += Array.from({ length: f.data[keys[0]].length }, (_, rowIndex) => {
+    return `~ ${keys.map(key => f.data[key][rowIndex]).join(' ')}`
   }).join('\n')
 
   return str
 }
 
-// TODO: chatGPT wrote this... make sure it works correctly
-function validateFubString (fubbleString) {
+const validateFubString = (fubbleString) => {
   // Split the string into lines
-  const lines = fubbleString.split('\n').map(line => line.trim())
-
+  const lines = fubbleString.split('\n')
+    .filter(line => line.length > 0)
+    .map(line => line.trim())
   // Check for header enclosed in "~~~"
   if (lines[0] !== '~~~' || lines.indexOf('~~~', 1) === -1) {
+    console.warn('validateFubString: header not enclosed in "~~~"')
     return false
   }
-
   // Validate header content
   const endOfHeaderIndex = lines.indexOf('~~~', 1)
   for (let i = 1; i < endOfHeaderIndex; i++) {
     if (!lines[i].includes(':')) {
+      console.warn('validateFubString: invalid header content')
       return false
     }
   }
-
   // Extract the data lines
   const dataLines = lines.slice(endOfHeaderIndex + 1)
-
   // Validate 'col', 'min', 'max', and data ticks
   if (dataLines.length < 4) {
+    console.warn('validateFubString: header not enclosed in "~~~"')
     return false
   }
-
   // Validate 'col' line starts with 't'
   const colHeaders = dataLines[0].split(' ')
   if (colHeaders[0] !== 'col' || colHeaders[1] !== 't') {
+    console.warn('validateFubString: column indicator row must start with "col" followed by "t"')
     return false
   }
-
   // Validate 'min' and 'max' lines
   if (!dataLines[1].startsWith('min ') || !dataLines[2].startsWith('max ')) {
+    console.warn('validateFubString: missing or incorrect min/max values')
     return false
   }
-
   // Count the number of columns
   const numberOfCols = colHeaders.length - 1
-
   // Validate each tick
   for (let i = 3; i < dataLines.length; i++) {
     const tick = dataLines[i].split(' ')
-    if (tick[1] !== 0) {
+    if (i === 3 && tick[1] !== '0') {
+      console.warn('validateFubString: first {t} must start with 0')
       return false
     }
     if (tick[0] !== '~' || tick.length !== numberOfCols + 1) {
+      console.warn('validateFubString: start of ticks missing ~ character')
       return false
     }
   }
-
   return true
 }
 
-const _saveToFile = (
-  s,
+const stringToFubble = (fubbleString) => {
+  // if (fubbleString instanceof Fubble) {
+  //   // being called by an instance, WHAT HAPPENS??? updates itself?
+  // }
+  const isValid = validateFubString(fubbleString)
+  if (!isValid) {
+    console.error('stringToFubble: invalid fubble string')
+    return
+  }
+
+  const metadata = {}
+  const bounds = {}
+  const lines = fubbleString.split('\n')
+    .filter(line => line.length > 0)
+    .map(line => line.trim())
+  // create metadata
+  const endOfHeaderIndex = lines.indexOf('~~~', 1)
+  for (let i = 1; i < endOfHeaderIndex; i++) {
+    const arr = lines[i].split(/:(.*)/s)
+    metadata[arr[0]] = arr[1].trim()
+  }
+  // create bounds
+  const dataLines = lines.slice(endOfHeaderIndex + 1)
+  const cols = dataLines[0].split(' ')
+  dataLines[1].split(' ').forEach((v, i) => {
+    if (i > 0) bounds[cols[i]] = { min: v }
+  })
+  dataLines[2].split(' ').forEach((v, i) => {
+    if (i > 0) bounds[cols[i]].max = v
+  })
+
+  const f = new Fubble({ metadata, bounds })
+  // create data (add tics)
+  for (let i = 3; i < dataLines.length; i++) {
+    const arr = dataLines[i].split(' ')
+    const tick = {}
+    cols.forEach((v, i) => {
+      if (i > 0) tick[v] = Number(arr[i])
+    })
+    _addTick(f, tick)
+  }
+  return f
+}
+
+const saveToFile = (
+  f,
   payload
 ) => {
   const path = payload && payload.path
-    ? payload.path : `${s.metadata.emergence}.fub`
+    ? payload.path : `${f.metadata.emergence}.fub`
 
   let dataString
-  if (s instanceof Fubble) {
-    dataString = convertToString(s)
+  if (f instanceof Fubble) {
+    dataString = convertToString(f)
   } else if (typeof s === 'string') {
     // TODO: validate s string
-    dataString = s
+    dataString = f
   } else {
     console.error('the argument passed must be a string with fubble data or a fubble instance')
     return
@@ -213,7 +263,6 @@ function loadFromFile (pathOrCallback, callback) {
     }
   }
 }
-
 
 // --> returns an object containing { x, t, y } values
 // ?? say time is 0 to 50, we pass in 80 --- does it
@@ -288,4 +337,13 @@ const getAt = (s, param) => {
 
 
 
-export default { _addTick, cloneFubble, getAt, convertToString, _saveToFile, loadFromFile }
+export default {
+  _addTick,
+  cloneFubble,
+  getAt,
+  convertToString,
+  validateFubString,
+  stringToFubble,
+  saveToFile,
+  loadFromFile
+}
