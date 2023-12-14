@@ -1,10 +1,89 @@
-# squorm
-A file format for defining multi-dimensional strokes or gestures in time
+# fubble
+A flexible file format for formalizing multi-dimensional paths, strokes, gestures, or [function scribbles](https://ojack.xyz/posts/fubbles/), also known as "fubbles".
+Conceptualized and created in Chicago at netizen.org's Artware Incubator with Olivia Jack.
+
+# vernacular of fubbles
+
+## tick
+A single moment
+
+## fubble
+A gesture, continuum, or stroke of **ticks**
+
+### mob
+A collection of **fubbles**, ex: a hand geasture (made up of finger fubbles), this can be a manifest with metadata (about the relationship between fubbles, including a shared clock) and references/paths to individual dotfub files, or it can be a single file containing all the individual fubble data itself.
+
+### contortion (?)
+a change of the thing (buffer)
+a mutation or compression of a dotfub file
+    - quantizing
+
+### agitation (?)
+acting upon (how it's being effected)
+    - fubble/mob on fubble/mob
+
+### mime
+the act of executing, "running", or "rendering" a fubble. "datamiming"
+this can happen a multitude of ways
+    - linearly
+    - palindrome
+    - random (perlin && otherwise)
+    - interwoven/intertwingled
+
+### squish
+The action of squishing a fubble or sob creates a compressed archive
+
+### squirmish
+Error that results from mobbing fubbles
+
+### fubbleverse
+ecostystem of fubbles, fubble mobs, agitations
+
+### fubhole
+??? mysterious and unpredictable
+
+### fubblecore
+a subgenera of internet art informed by and facilitated by fubbles and the dot fub file format!
+
+## dot fub File Specification
+
+```.fub
+~~~
+version: 1.0.0
+date: 2023~12~06~12:00:00
+name:
+creator:
+device:
+location:
+license: GPLv3
+notes:
+mood:
+~~~
+col t x y z
+min 0 -1 0 0
+max 6 4 10 10
+~ 0.122 43 21 190
+~ 0.122 43 21 190
+~ 0.1435 33 19 190
+
+~ 0.1677 43 21 190
+~ 0.1999 33 19 190
+```
+
+- the file should begin with `~~~` to designate the start of the header, followed by metadata (example: version: 1.0.0) and closed with another `~~~`
+- the `date` value in the metadata should be relative to the moment the fubble began (not the file's creation time)
+
+- metadata should be followed by a `col` declaration indicating the labels for each column of data which follows
+- always begins with col and t
+- column t (generally corresponds to time) is a number that is increasing
+- other columns are customizable and can be specified by squirm generator
+- the `col` delcaration should be followed by a `min` and `max` declaration indicating the min/max values of each column
+- a blank line in between lines beginning with ~ indicates a pause or break in continuity
 
 ### methods
 
 #### addTick(Squirm, { t, x, y, ... })
---> returns a squirm
+--> returns a fubble
 - Sends warning if t is not bigger than past t
 - warns if not all dimensions (t, x, y, z) are not covered
 - t is time relative to start time / instantiation / birth / inception / genesis
@@ -24,16 +103,14 @@ const _addTick = (s, payload) => {
 }
 ```
 
-
-
-### convertToString( Squirm, options = {} )
+### convertToString(Fubble, options = {} )
 --> returns a string
 
-### saveToFile (Squirm, options = { path })
+### saveToFile (Fubble, options = { path })
 --> return a File handle (?)
 *.squirm is added to end of file
 
-### saveToFile ( squirmString, options = { path })
+### saveToFile ( fubbleString, options = { path })
 --> return a File handle (?)
 
 ### loadFromFile ( File )
@@ -42,32 +119,24 @@ const _addTick = (s, payload) => {
 ### loadFromFile ( path )
 --> returns a squirm
 
-### getAt(Squirm, time, {} )
+### getAt(Fubble, time, {} )
 --> returns an object containing { x, t, y } values
-?? say time is 0 to 50, we pass in 80 --- does it
+?? say, time is 0 to 50, we pass in 80 --- does it
 wrap: repeat, hallucinate, mirror, clamp // what does it do beyond time?
 from:  // what does it do between time? nearest, linear, before, after
 
 
-## notes and questions after worksession 12.12 (olivia)
-- does `actions/saveToFile` need to clone file?
-- how to pass path in to `loadFromFile`? i.e. what i imageine wanting to do often is to load a local squirm file
-- possible for loadFromFile to use promises or async/await instead of callbacks?
-- are we missing the function to generate a squirm from a string representation?
-- i think min and max for values other than t should be user defined, so we can get available bounds of "drawing area" (for scaling) rather than just bounds of recorded points. this means we need to re-implement min and max getter and setter
-- should we round the squirm data points / have a certain precision?
-- probably should restructure repo to have library functions in one place + examples in another, etc etc..
-- (for myself) how to reconcile squirms with fubbles in existing projects / how does a squirm relate to a fubble? .. i.e. usually i would call this a 'fubble' in my own projects (https://twitter.com/awwbees/status/1294025917510168578) but then we are doing something additional + adding on so much with the file format and mimeing + cross polination
-- our format seems similar to the second version of the keyframe format at: https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats
-
-Using this format, the number of elements in each array does not need to be equal. The provided values will be spaced out independently.
-
-```javascript
-element.animate(
-  {
-    opacity: [0, 1], // offset: 0, 1
-    backgroundColor: ["red", "yellow", "green"], // offset: 0, 0.5, 1
-  },
-  2000,
-);
-```
+# references
+1. [Labanotation](https://en.wikipedia.org/wiki/Labanotation) ~ Rudolf von Laban (1920s)
+2. [yellow tail](http://www.flong.com/archive/projects/yellowtail/index.html) ~ Golan Levin (1998, rebuilt in Processing in 2007)
+3. [What Shall We Do Next? (Sequence #1)](https://vimeo.com/59793317) ~ Julien Prévieux (2006-2011)
+4. [tagtool](https://www.tagtool.org/) ~ OMAi GmbH (2008)
+5. [MotionBank](https://motionbank.org/#/) ~ Motionbank Project (2010–)
+6. [GML - Graffiti Markup Langauge](http://web.archive.org/web/20170910132945/http://www.graffitimarkuplanguage.com/category/projects/) ~ Jamie Wilkinson, Chris Sugrue, Theo Watson, and Evan Roth (2011)
+7. [Multi-Touch Painting series](https://www.huffpost.com/entry/evan-roth_n_5670204) ~ Evan Roth (2012 - 2014)
+8. [InterFacePainter](http://poxparty.com/InterFacePainter/) ~ PoxParty (2013)
+9. [Land Lines](https://experiments.withgoogle.com/land-lines) ~ Zach Lieberman in collaboration with the Data Arts Team at Google (2016)
+10. [Boopy](https://www.boopy.club/) ~ Andrew Benson and Giphy (2016)
+11. [Norman - VR animated/drawing](https://experiments.withgoogle.com/norman) ~ James Paterson (2017)
+12. [Tensor Flow Body Models](https://www.tensorflow.org/js/models#body) ~ TensorFlow.js Team at Google (2018–)
+13. [fubbles "function scribbles"](https://ojack.xyz/posts/fubbles/) ~ Olivia Jack (2020)
