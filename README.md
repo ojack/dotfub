@@ -81,13 +81,13 @@ max 6 4 10 10
 - metadata should be followed by a `col` declaration indicating the labels for each column of data which follows
 - always begins with col and t
 - column t (generally corresponds to time) is a number that is increasing
-- other columns are customizable and can be specified by squirm generator
+- other columns are customizable and can be specified by fubble generator
 - the `col` delcaration should be followed by a `min` and `max` declaration indicating the min/max values of each column
 - a blank line in between lines beginning with ~ indicates a pause or break in continuity
 
 ### methods
 
-#### addTick(Squirm, { t, x, y, ... })
+#### addTick(Fubble, { t, x, y, ... })
 --> returns a fubble
 - Sends warning if t is not bigger than past t
 - warns if not all dimensions (t, x, y, z) are not covered
@@ -113,16 +113,16 @@ const _addTick = (s, payload) => {
 
 ### saveToFile (Fubble, options = { path })
 --> return a File handle (?)
-*.squirm is added to end of file
+*.fub is added to end of file
 
 ### saveToFile ( fubbleString, options = { path })
 --> return a File handle (?)
 
 ### loadFromFile ( File )
---> returns a squirm
+--> returns a fubble
 
 ### loadFromFile ( path )
---> returns a squirm
+--> returns a fubble
 
 ### getAt(Fubble, time, {} )
 --> returns an object containing { x, t, y } values
@@ -146,4 +146,8 @@ from:  // what does it do between time? nearest, linear, before, after
 12. [Tensor Flow Body Models](https://www.tensorflow.org/js/models#body) ~ TensorFlow.js Team at Google (2018–)
 13. [fubbles "function scribbles"](https://ojack.xyz/posts/fubbles/) ~ Olivia Jack (2020)
 
+
+
+---
+header GIF uses Puffin Arcade Liquid by Bold Monday
 
