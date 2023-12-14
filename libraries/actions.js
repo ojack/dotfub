@@ -1,6 +1,5 @@
 import Fubble from './Fubble.js'
 
-// should always have time, should add new time such that time array is always increasing
 const _addTick = (f, payload) => {
   if (typeof f.metadata.emergence === 'undefined') {
     f.metadata.emergence = new Date().toISOString()
