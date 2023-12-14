@@ -1,3 +1,4 @@
+![image](assets/fubbleheader.gif)
 # fubble
 A flexible file format for formalizing multi-dimensional paths, strokes, gestures, or [function scribbles](https://ojack.xyz/posts/fubbles/), also known as "fubbles".
 Conceptualized and created in Chicago at netizen.org's Artware Incubator with Olivia Jack.
