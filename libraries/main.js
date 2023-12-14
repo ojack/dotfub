@@ -1,13 +1,13 @@
-import Squirm from './Squirm.js'
+import Fubble from './Fubble.js'
 import actions from './actions.js'
 
-const { cloneSquirm } = actions
+const { cloneFubble } = actions
 
 // object containing public facing library of squirm functions
-const squirmActions = {}
+const fubbleActions = {}
 
-// For each squirm action, add that action as a method to the Squirm class, and also as a a standalone function
-// For example, `addTick` can be called as `mySquirm.addTick(point)` or as `addTick(mySquirm, point)`
+// For each squirm action, add that action as a method to the Fubble class, and also as a a standalone function
+// For example, `addTick` can be called as `myFubble.addTick(point)` or as `addTick(myFubble, point)`
 
 Object.entries(actions).forEach(([name, action]) => {
   // Generate standalone action function from each action
@@ -16,23 +16,23 @@ Object.entries(actions).forEach(([name, action]) => {
   let newName = name
   if (newName.indexOf('_') === 0) {
     newName = newName.substring(1)
-    squirmActions[newName] = (s, payload) => {
-      if (!(s instanceof Squirm)) {
-        console.error('First argument must be an instance of Squirm')
+    fubbleActions[newName] = (s, payload) => {
+      if (!(s instanceof Fubble)) {
+        console.error('First argument must be an instance of Fubble')
         return
       }
-      const clone = cloneSquirm(s)
+      const clone = cloneFubble(s)
       action(clone, payload)
       return clone
     }
   } else {
-    squirmActions[newName] = action
+    fubbleActions[newName] = action
   }
 
-  // add method to Squirm prototype
-  Squirm.prototype[newName] = function (payload = null) {
+  // add method to Fubble prototype
+  Fubble.prototype[newName] = function (payload = null) {
     return action(this, payload)
   }
 })
 
-export { Squirm, squirmActions }
+export { Fubble, fubbleActions }

@@ -1,4 +1,4 @@
-import Squirm from './Squirm.js'
+import Fubble from './Fubble.js'
 
 // @todo: should always have time, should add new time such that time array is always increasing
 const _addTick = (s, payload) => {
@@ -50,11 +50,11 @@ const _addTick = (s, payload) => {
   return s
 }
 
-const cloneSquirm = (s) => {
-  const newSquirm = new Squirm()
-  newSquirm.data = JSON.parse(JSON.stringify(s.data))
-  newSquirm.metadata = Object.assign({}, s.metadata)
-  return newSquirm
+const cloneFubble = (s) => {
+  const newFubble = new Fubble()
+  newFubble.data = JSON.parse(JSON.stringify(s.data))
+  newFubble.metadata = Object.assign({}, s.metadata)
+  return newFubble
 }
 
 const convertToString = (s) => {
@@ -79,9 +79,9 @@ const convertToString = (s) => {
 }
 
 // TODO: chatGPT wrote this... make sure it works correctly
-function validateSquirmString (squirmString) {
+function validateFubString (fubbleString) {
   // Split the string into lines
-  const lines = squirmString.split('\n').map(line => line.trim())
+  const lines = fubbleString.split('\n').map(line => line.trim())
 
   // Check for header enclosed in "~~~"
   if (lines[0] !== '~~~' || lines.indexOf('~~~', 1) === -1) {
@@ -137,16 +137,16 @@ const _saveToFile = (
   payload
 ) => {
   const path = payload && payload.path
-    ? payload.path : `${s.metadata.emergence}.squirm`
+    ? payload.path : `${s.metadata.emergence}.fub`
 
   let dataString
-  if (s instanceof Squirm) {
+  if (s instanceof Fubble) {
     dataString = convertToString(s)
   } else if (typeof s === 'string') {
     // TODO: validate s string
     dataString = s
   } else {
-    console.error('the argument passed must be a string with squirm data or a squirm instance')
+    console.error('the argument passed must be a string with fubble data or a fubble instance')
     return
   }
 
@@ -222,10 +222,10 @@ function loadFromFile (pathOrCallback, callback) {
 // getAt can either be a number or an object
 // accepts {
 //  t: time,
-//  wrap: repeat, 
+//  wrap: repeat,
 //}
 
-// assumes squirm.data.t is an array of values that is always increasing, and that t <= data.max.t
+// assumes fubble.data.t is an array of values that is always increasing, and that t <= data.max.t
 const getIndexOfPreviousFromTime = (s, time) => {
   let index = 0
   const tArray = s.data.t
@@ -288,4 +288,4 @@ const getAt = (s, param) => {
 
 
 
-export default { _addTick, cloneSquirm, getAt, convertToString, _saveToFile, loadFromFile }
+export default { _addTick, cloneFubble, getAt, convertToString, _saveToFile, loadFromFile }

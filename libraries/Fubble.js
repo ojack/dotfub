@@ -1,4 +1,8 @@
-class Squirm {
+// TODO: implement bounds (instead of min/max)
+// this.bounds.x = [0, 100] user can set
+// this.bounds.t = [0, 1000]  user can not set (should be calculated)
+// add bounds to constructor
+class Fubble {
   constructor ({ metadata = {}, columns = [] } = {}) {
     this.metadata = Object.assign({
       version: '1.0.0',
@@ -12,7 +16,7 @@ class Squirm {
   }
 
   set min (v) {
-    console.warn('Squirm: min is a read only property')
+    console.warn('Fubble: min is a read only property')
   }
 
   get min () {
@@ -24,7 +28,7 @@ class Squirm {
   }
 
   set max (v) {
-    console.warn('Squirm: max is a read only property')
+    console.warn('Fubble: max is a read only property')
   }
 
   get max () {
@@ -36,4 +40,4 @@ class Squirm {
   }
 }
 
-export default Squirm
+export default Fubble
